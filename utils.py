@@ -21,8 +21,12 @@ class Tools:
         if 'database.csv' not in os.listdir():
             open(os.path.join(self.BASE, "database.csv"), "w").close()
 
+    def saveDB(self):
+        pass
+
     # Add family members to database
     def addMember(self):
+        print('Hello')
         pass
 
     # Remove family members from database
