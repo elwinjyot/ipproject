@@ -33,20 +33,20 @@ class Tools(BaseManager):
         self.records = None
 
         if 'database.csv' not in os.listdir():
+            self.console.print('[b yellow]No existing data found![/b yellow]')
+            self.console.print('[b yellow]Creating new database...[/b yellow]')
             open(os.path.join(self.BASE, "database.csv"), "w").close()
+            self.console.print('[b green]Done![/b green]')
 
         try:
             dbData = pd.read_csv(self.filePath)
         except EmptyDataError:
             self.records = None
         else:
-            if dbData.empty:
-                self.records = None
-            else:
-                recDFIndex = dbData['id'].values
-                dbData.index = recDFIndex
-                dbData = dbData.drop('id', axis='columns')
-                self.records = dbData
+            recDFIndex = dbData['id'].values
+            dbData.index = recDFIndex
+            dbData = dbData.drop('id', axis='columns')
+            self.records = dbData
 
     def execute(self, cmd):
         iterable = iter(cmd.split(' '))
@@ -68,8 +68,8 @@ class Tools(BaseManager):
                 if arg == 'all':
                     self.getAllRecords()
                 else:
-                    arg = self.validateArg(arg) 
-                    if arg is not None:
+                    arg = self.validateArg(arg)
+                    if arg:
                         self.getRecord(arg)
                     else:
                         self.console.print('[b red]Command not found![/b red]')
@@ -79,20 +79,18 @@ class Tools(BaseManager):
                 return False
 
     # Display all records
+    @checkExistance
     def getAllRecords(self):
-        if self.records is None:
-            self.console.print("[b yellow]No records found[/b yellow] 😕")
-        else:
-            table = Table(show_header=True, header_style="bold magenta")
-            table.add_column("ID", justify="center")
-            table.add_column("Name", justify="left")
-            rows = self.records.iterrows()
+        table = Table(show_header=True, header_style="bold magenta")
+        table.add_column("ID", justify="center")
+        table.add_column("Name", justify="left")
+        rows = self.records.iterrows()
 
-            for index, row in rows:
-                table.add_row(
-                    f"[bold magenta]{str(index)}[/bold magenta]", f"[i]{row['Name']}[/i]")
+        for index, row in rows:
+            table.add_row(
+                f"[bold magenta]{str(index)}[/bold magenta]", f"[i]{row['Name']}[/i]")
 
-            self.console.print(table)
+        self.console.print(table)
 
     # Display a specific record
     @checkExistance
@@ -102,9 +100,10 @@ class Tools(BaseManager):
         all_items = []
         for col in cols:
             all_items.append(
-                Panel(f"[b]{str(spcRec[col])}[/b]", expand=True, title=f"[yellow]{col}[/yellow]"),
+                Panel(f"[b]{str(spcRec[col])}[/b]", expand=True,
+                      title=f"[yellow]{col}[/yellow]"),
             )
-        
+
         self.console.print(Markdown('***'))
         self.console.print("[bold yellow]Personal Information[/bold yellow]")
         PERS_INFO = f'''
@@ -126,6 +125,7 @@ class Tools(BaseManager):
     # Add family members to database
     @checkExistance
     def addMember(self):
+
         pass
 
     # Remove family members from database
