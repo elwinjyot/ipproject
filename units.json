@@ -1,0 +1,26 @@
+{
+  "GLUCOSE LEVEL": {
+    "unit": "mg/dL",
+    "normals": { "Male": [90, 110], "Female": [90, 110] }
+  },
+  "RBC COUNT": {
+    "unit": "million cells/mcL",
+    "normals": { "Male": [4.7, 6.1], "Female": [4.1, 5.4] }
+  },
+  "WBC COUNT": {
+    "unit": "WBCs/mcL",
+    "normals": { "Male": [4500, 11000], "Female": [4500, 11000] }
+  },
+  "PLATELET COUNT": {
+    "unit": "pl/mcL",
+    "normals": { "Male": [150000, 450000], "Female": [150000, 450000] }
+  },
+  "HAEMOGLOBIN COUNT": {
+    "unit": "g/dL",
+    "normals": { "Male": [13.5, 17.5], "Female": [12.0, 12.5] }
+  },
+  "CHOLESTROL LEVEL": {
+    "unit": "mg/dL",
+    "normals": { "Male": [40, 200], "Female": [50, 60] }
+  }
+}
